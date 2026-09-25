@@ -327,3 +327,22 @@ The new scenarios appear automatically in the employee assignment dropdown, the 
 - All 20 scenarios score 100 when every step is correct.
 - The practice list still has 19 problems.
 - The full suites pass: 125 app/demo checks, 18 download checks and 11 runbooks-login checks.
+
+
+---
+
+## Employee login: named user IDs (changed)
+
+The single shared access code (`EMPLOYEE_CODE`) and its on-screen "Default code …" hint have been removed. The Employee tab now asks for a **User ID** and **Password**:
+
+| User ID | Password |
+|---|---|
+| Admin | Admin@123 |
+| Subbiah | Admin@123 |
+
+- The user ID is not case-sensitive; the password is.
+- The dashboard shows who is logged in (Admin or Subbiah).
+- Accounts live in `EMPLOYEE_ACCOUNTS` near the top of the script. Each password is stored as a SHA-256 hash of `runbook-academy:<userid in lowercase>:<password>`, never in plain text. The comment above `EMPLOYEE_ACCOUNTS` explains how to add a user or change a password.
+- **Limitation:** the check still runs in the browser, like the rest of this static site. A hash keeps the password out of plain sight in the public repo, but a short password can be guessed by anyone who copies the hash and runs a password-guessing tool on it. Use longer passwords for anything beyond a training exercise.
+
+**Tested:** 16 login checks: both accounts, case rules, the old code rejected, unknown or blank input rejected, the Enter key, the password not in the page source, and the built-in and fallback hashing giving identical results. All existing suites pass with the new login.
